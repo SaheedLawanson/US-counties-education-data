@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Choropleth Map</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.2.0/d3.min.js" integrity="sha512-uM8yWltkQ6S5r4ItJehZfUM8PUBPYkA8L1AkbRYjvH5ALHIFjF7J/QEyhda4saz4Jth65TyXXGFDyeZw+MoOKQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/3.0.2/topojson.min.js" integrity="sha512-4UKI/XKm3xrvJ6pZS5oTRvIQGIzZFoXR71rRBb1y2N+PbwAsKa5tPl2J6WvbEvwN3TxQCm8hMzsl/pO+82iRlg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel = "stylesheet" href = "style.css">
+</head>
+<body>
+
+    <h2 id = 'title'>US Education Data</h2>
+    <h4 id = 'description'>Percentage of people over 25 with a Bachelor's degree</h4>
+
+    <svg id = 'legend' height = 40 width = 320>
+        <rect class = legs id = col1 width = 40 height = 40></rect>
+        <rect class = legs id = col2 x = 40 width = 40 height = 40></rect>
+        <rect class = legs id = col3 x = 80 width = 40 height = 40></rect>
+        <rect class = legs id = col4 x = 120 width = 40 height = 40></rect>
+        <rect class = legs id = col5 x = 160 width = 40 height = 40></rect>
+        <rect class = legs id = col6 x = 200 width = 40 height = 40></rect>
+        <rect class = legs id = col7 x = 240 width = 40 height = 40></rect>
+        <rect class = legs id = col8 x = 280 width = 40 height = 40></rect>
+    </svg>
+
+    <svg id = "canvas">
+
+    </svg>
+    
+
+    <div id = tooltip>
+
+    </div>
+    
+    
+    
+</body>
+<script defer src = "script.js"></script>
+<script defer src = "https://cdn.freecodecamp.org/testable-projects-fcc/v1/bundle.js"></script>
+</html>
