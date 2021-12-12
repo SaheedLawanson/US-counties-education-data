@@ -11,21 +11,23 @@ let colorScale = ['rgb(155, 200, 155)', 'rgb(130, 200, 130)', 'rgb(105, 200, 105
 
 let criteria= [1,2,3,4,5,6,7,8].map(d => d*(60/8))
 
+// Creating the main SVG canvas
 let canvas = d3.select('#canvas')
+
 let tooltip = d3.select('#tooltip')
-let rects = d3.selectAll('.legs')
-                .attr('fill', (d, i) => colorScale[i])
 
 
 let drawMap = () => {
-
+        // Drawing our geojson object on the canvas
         canvas.selectAll('path')
             .data(countyData)
             .enter()
             .append('path')
             .attr('d', d3.geoPath())
             .attr('class', 'county')
-            .attr('fill', cd => {
+
+            // Color counties on the map based on education status
+            .attr('fill', cd => {          
                 let id = cd['id']
                 let eduId = educationData.find(d => d.fips == id)
 
@@ -38,8 +40,8 @@ let drawMap = () => {
                 else if (eduId['bachelorsOrHigher'] <= 52.5) {return colorScale[6]}
                 else{return colorScale[7]}
             })
-            .attr('data-fips', d => d.id)
-            .attr('data-education', d => educationData.find(item => d.id === item.fips).bachelorsOrHigher)
+
+            // Make tooltip visible on mouse over event
             .on('mouseover', d => {
                 d = d.srcElement.__data__
                 d = educationData.find(item => item.fips === d.id)
@@ -48,20 +50,37 @@ let drawMap = () => {
                 tooltip.text(d.area_name+', '+d.state+': '+d.bachelorsOrHigher)
                 tooltip.attr('data-education', d.bachelorsOrHigher)
             })
+
+            // Hide tooltip on mouse out event
             .on('mouseout', d => {
                 tooltip.transition()
                     .style('visibility', 'hidden')
             })
-
-            
 }; 
 
+// Creating the legend
+d3.select('#legend')
+    .selectAll('rect')
+    .data(colorScale)
+    .enter()
+    .append('rect')
+    .attr('class', 'legend-items')
+    .attr('width', 40)
+    .attr('height', 40)
+    .attr('x', (d, i) => (i*40 +2))
+    .attr('id', (d, i) => "col"+(i+1))
+
+d3.selectAll('.legend-items')
+    .attr('fill', (d, i) => colorScale[i])
+
+// Pulling data from both our APIs
 d3.json(countyURL).then(
     (data, error) => {
         if (error) {console.log(log)}
         else {
+            // Converting our topojson data to geojson and extracting the
+            // information for US counties only
             countyData = topojson.feature(data, data.objects.counties).features
-            console.log(countyData)
 
             d3.json(educationURL).then(
                 (data, error) => {
